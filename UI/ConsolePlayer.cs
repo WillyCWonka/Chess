@@ -70,6 +70,7 @@ public class ConsolePlayer : IPlayer
                     Console.Write(" K ");
                 }
             }
+            Console.BackgroundColor = ConsoleColor.Black;
             Console.WriteLine();
             bgColor = !bgColor;
         }

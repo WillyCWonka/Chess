@@ -1,4 +1,6 @@
-﻿namespace Chess.Engine;
+﻿using System.Text.RegularExpressions;
+
+namespace Chess.Engine;
 public class Game
 {
     private GameState gs;
@@ -15,7 +17,7 @@ public class Game
 
     public Status Run()
     {
-        //TODO: game run logic
+        //game run logic
         while(gs.Status == Status.Playing)
         {
             var playerMove = gs.CurrentPlayer.GetMove(gs);
@@ -55,10 +57,52 @@ public class Game
         return gs.CurrentPlayer == player1;
     }
 
+    private static Regex pattern = new Regex(@"^(?<origX>[a-h])(?<origY>[1-8])\s*(?<destX>[a-h])(?<destY>[1-8])$");
+
     private Move? ParseMove(string chessNotation)
     {
         //TODO: convert chess string to move class
-        return null;
+
+        // Bd3 bishop to d3
+        // b3 pawn to b3
+        // Ncb3 knight from c to b3, only required if another knight can move to b3
+        // O-O castle
+        // O-O-O queen side castle
+        // concede
+        if (chessNotation == "O-O")
+        {
+            return new Move(chessNotation, 0, 0, 0, 0, MoveType.Castle);
+        }
+        else if (chessNotation == "O-O-O")
+        {
+            return new Move(chessNotation, 0, 0, 0, 0, MoveType.LongCastle);
+        }
+        else if (chessNotation == "concede")
+        {
+            return new Move(chessNotation, 0, 0, 0, 0, MoveType.Concede);
+        }
+
+        var m = pattern.Match(chessNotation);
+        if(!m.Success)
+        {
+            return null;
+        }
+
+        int origX = "abcdefgh".IndexOf(m.Groups["origX"].Value);
+        int origY = "87654321".IndexOf(m.Groups["origY"].Value);
+
+        int destX = "abcdefgh".IndexOf(m.Groups["destX"].Value);
+        int destY = "87654321".IndexOf(m.Groups["destY"].Value);
+
+        // moving a pawn into an adjacent column with no taking piece
+        if ((gs.Board[origX, origY] & Piece.Pawn) > 0 &&
+            gs.Board[origX, origY] == Piece.None &&
+            origX != destX)
+        {
+            return new Move(chessNotation, origX, origY, destX, destY, MoveType.EnPassant);
+        }
+
+        return new Move(chessNotation, origX, origY, destX, destY, MoveType.Standard);
     }
 
     private bool ValidateMove(Move move, out string reason)

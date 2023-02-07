@@ -6,4 +6,4 @@ var p2 = new Chess.UI.ConsolePlayer();
 var g = new Game(p1, p2);
 
 var status = g.Run();
-Console.Write(status);
+Console.WriteLine(status);
