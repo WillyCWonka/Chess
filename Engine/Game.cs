@@ -28,13 +28,13 @@ public class Game
             }
 
             // validate the move
-            if (!ValidateMove(move, out string reason))
+            if (!ValidateMove(move.Value, out string reason))
             {
                 gs.CurrentPlayer.IllegalMove(playerMove, reason);
                 continue;
             }
 
-            ExecuteMove(move);
+            ExecuteMove(move.Value);
 
             // next players turn
             if (IsPlayer1CurrentPlayer())
@@ -57,31 +57,73 @@ public class Game
 
     private Move? ParseMove(string chessNotation)
     {
-        // convert chess string to move class
+        //TODO: convert chess string to move class
+        return null;
     }
 
     private bool ValidateMove(Move move, out string reason)
     {
-        // make sure move doesn't break any rules
+        //TODO: make sure move doesn't break any rules
+        reason = "";
+        return true;
     }
 
 
     private void ExecuteMove(Move move)
     {
         // update our game state with the new move
-        //gs.Board;
-        //gs.IsInCheck;
-        //gs.Status;
         switch (move.Type)
         {
             case MoveType.Standard:
+                gs.MovePiece(move.OriginX, move.OriginY, move.DestinationX, move.DestinationY);
                 break;
             case MoveType.Castle:
+                if (IsPlayer1CurrentPlayer())
+                {
+                    //   move king from 4,0 to 6,0
+                    gs.MovePiece(4, 0, 6, 0);
+                    //   move rook from 7,0 to 5,0
+                    gs.MovePiece(7, 0, 5, 0);
+                }
+                else
+                {
+                    //   move king to 3,7 to 1,7
+                    gs.MovePiece(3, 7, 1, 7);
+                    //   move rook to 0,7 to 2,7
+                    gs.MovePiece(0, 7, 2, 7);
+                }
                 break;
             case MoveType.LongCastle:
+                if (IsPlayer1CurrentPlayer())
+                {
+                    //   move king from 4,0 to 2,0
+                    gs.MovePiece(4, 0, 2, 0);
+                    //   move rook from 0,0 to 3,0
+                    gs.MovePiece(0, 0, 3, 0);
+                }
+                else
+                {
+                    //   move king from 3,7 to 5,7
+                    gs.MovePiece(3, 7, 5, 7);
+                    //   move rook from 7,7 to 4,7
+                    gs.MovePiece(7, 7, 4, 7);
+                }
                 break;
             case MoveType.EnPassant:
+                gs.MovePiece(move.OriginX, move.OriginY, move.DestinationX, move.DestinationY);
+                // the last piece moved must have been the pawn that's being captured
+                gs.Board[gs.MoveHistory.Last().DestinationX, gs.MoveHistory.Last().DestinationY] = Piece.None;
                 break;
+            case MoveType.Concede:
+                if (IsPlayer1CurrentPlayer())
+                {
+                    gs.Status = Status.Player2Win;
+                }
+                else
+                {
+                    gs.Status = Status.Player1Win;
+                }
+                return;
         }
 
         gs.IsInCheck = IsCheck();
@@ -109,16 +151,19 @@ public class Game
 
     private bool IsCheck()
     {
-        // check non-current player for check
+        //TODO: check non-current player for check
+        return false;
     }
 
     private bool IsCheckMate()
     {
-        // check non-current player for checkmate
+        //TODO: check non-current player for checkmate
+        return false;
     }
 
     private bool IsStalemate()
     {
-        // check non-current player for stalemate
+        //TODO: check non-current player for stalemate
+        return false;
     }
 }
