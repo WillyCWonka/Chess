@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Chess.Engine.Rules;
 
 namespace Chess.Engine;
 public class Game
@@ -18,7 +19,7 @@ public class Game
     public Status Run()
     {
         //game run logic
-        while(gs.Status == Status.Playing)
+        while (gs.Status == Status.Playing)
         {
             var playerMove = gs.CurrentPlayer.GetMove(gs);
 
@@ -39,13 +40,14 @@ public class Game
             ExecuteMove(move.Value);
 
             // next players turn
-            if (IsPlayer1CurrentPlayer())
+            gs.IsPlayer1 = !gs.IsPlayer1;
+            if (gs.IsPlayer1)
             {
-                gs.CurrentPlayer = player2;
+                gs.CurrentPlayer = player1;
             }
             else
             {
-                gs.CurrentPlayer = player1;
+                gs.CurrentPlayer = player2;
             }
         }
 
@@ -61,7 +63,6 @@ public class Game
 
     private Move? ParseMove(string chessNotation)
     {
-        //TODO: convert chess string to move class
 
         // Bd3 bishop to d3
         // b3 pawn to b3
@@ -83,7 +84,7 @@ public class Game
         }
 
         var m = pattern.Match(chessNotation);
-        if(!m.Success)
+        if (!m.Success)
         {
             return null;
         }
@@ -105,9 +106,27 @@ public class Game
         return new Move(chessNotation, origX, origY, destX, destY, MoveType.Standard);
     }
 
+    static readonly Rules.Rule[] rules =
+    {
+        new StartEndRule(),
+        new OwnOriginRule(),
+        new OwnDestRule(),
+        new RookMoveRule(),
+        new BishopMoveRule(),
+        new PawnMoveRule()
+    };
+
+
     private bool ValidateMove(Move move, out string reason)
     {
         //TODO: make sure move doesn't break any rules
+        foreach (var rule in rules)
+        {
+            if (!rule.IsValid(gs, move, out reason))
+            {
+                return false;
+            }
+        }
         reason = "";
         return true;
     }

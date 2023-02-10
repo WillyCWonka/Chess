@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Chess.Engine.Rules;
 
-internal class OwnDestRule : Rule
+internal class OwnOriginRule : Rule
 {
 
     internal override bool IsValid(GameState gs, Move m, out string reason)
@@ -12,9 +12,9 @@ internal class OwnDestRule : Rule
             return true;
         }
 
-        if (!base.DestPieceIsNone(gs, m) && base.DestPieceIs(gs, m, Piece.Player1) == gs.IsPlayer1)
+        if (base.OriginPieceIsNone(gs, m) || base.OriginPieceIs(gs, m, Piece.Player1) != gs.IsPlayer1)
         {
-            reason = "Ending square must not have a piece you own";
+            reason = "Starting square must have a piece you own";
             return false;
         }
 

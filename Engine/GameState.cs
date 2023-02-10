@@ -5,6 +5,7 @@ public class GameState
     public List<Move> MoveHistory { get; }
 
     public IPlayer CurrentPlayer { get; internal set; }
+    public bool IsPlayer1 { get; internal set; }
     public bool IsInCheck { get; internal set; }
 
     public Status Status { get; internal set; }
@@ -14,6 +15,7 @@ public class GameState
         Board = new Piece[8, 8];
         MoveHistory = new List<Move>();
         CurrentPlayer = startingPlayer;
+        IsPlayer1 = true;
 
         Board[7, 0] = Board[0, 0] = Piece.Rook;
         Board[6, 0] = Board[1, 0] = Piece.Knight;
