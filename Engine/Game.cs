@@ -97,7 +97,7 @@ public class Game
 
         // moving a pawn into an adjacent column with no taking piece
         if ((gs.Board[origX, origY] & Piece.Pawn) > 0 &&
-            gs.Board[origX, origY] == Piece.None &&
+            gs.Board[destX, destY] == Piece.None &&
             origX != destX)
         {
             return new Move(chessNotation, origX, origY, destX, destY, MoveType.EnPassant);
@@ -113,7 +113,10 @@ public class Game
         new OwnDestRule(),
         new RookMoveRule(),
         new BishopMoveRule(),
-        new PawnMoveRule()
+        new PawnMoveRule(),
+        new QueenMoveRule(),
+        new KnightMoveRule(),
+        new KingMoveRule()
     };
 
 

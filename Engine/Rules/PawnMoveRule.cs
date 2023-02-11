@@ -3,7 +3,6 @@ namespace Chess.Engine.Rules;
 
 internal class PawnMoveRule : Rule
 {
-
     internal override bool IsValid(GameState gs, Move m, out string reason)
     {
         reason = "";
@@ -18,8 +17,6 @@ internal class PawnMoveRule : Rule
         }
 
         int inc = OriginPieceIs(gs, m, Piece.Player1) ? -1 : 1;
-
-
 
         // code for when a pawn captures something
         if (m.DestinationX != m.OriginX)
