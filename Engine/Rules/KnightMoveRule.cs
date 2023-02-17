@@ -1,5 +1,4 @@
-﻿using System;
-namespace Chess.Engine.Rules;
+﻿namespace Chess.Engine.Rules;
 
 internal class KnightMoveRule : Rule
 {
@@ -27,4 +26,3 @@ internal class KnightMoveRule : Rule
         return false;
     }
 }
-

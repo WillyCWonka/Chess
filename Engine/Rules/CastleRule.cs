@@ -1,11 +1,18 @@
-﻿using System;
-namespace Engine.Rules
+﻿namespace Chess.Engine.Rules;
+
+internal class CastleRule : Rule
 {
-	public class CastlingRule
-	{
-		public CastlingRule()
-		{
-		}
-	}
+    internal override bool IsValid(GameState gs, Move m, out string reason)
+    {
+        reason = "";
+
+        if (m.Type != MoveType.Castle)
+        {
+            return true;
+        }
+        return true;
+        //TODO
+    }
 }
+
 

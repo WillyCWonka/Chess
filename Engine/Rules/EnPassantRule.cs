@@ -11,8 +11,8 @@ internal class EnPassantRule : Rule
             return true;
         }
 
-
-
+        //TODO
+        return true;
 
 
     }

@@ -1,11 +1,12 @@
-﻿using System;
-namespace Engine.Rules
+﻿namespace Chess.Engine.Rules;
+
+internal class CheckRule : Rule
 {
-	public class CheckRule
-	{
-		public CheckRule()
-		{
-		}
-	}
+    internal override bool IsValid(GameState gs, Move m, out string reason)
+    {
+        reason = "";
+        return true;
+        //TODO
+    }
 }
 

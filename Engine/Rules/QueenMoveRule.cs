@@ -78,7 +78,7 @@ internal class QueenMoveRule : Rule
             return true;
         }
 
-        reason = "queens must move in a straight line";
+        reason = "Queens must move in a straight line";
         return false;
 
     }

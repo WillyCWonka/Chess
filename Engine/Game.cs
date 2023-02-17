@@ -14,6 +14,7 @@ public class Game
         this.player1 = player1;
         this.player2 = player2;
         gs = new GameState(player1);
+        gs.SetupDefaultBoard();
     }
 
     public Status Run()

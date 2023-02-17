@@ -3,7 +3,6 @@ namespace Chess.Engine.Rules;
 
 internal class OwnOriginRule : Rule
 {
-
     internal override bool IsValid(GameState gs, Move m, out string reason)
     {
         reason = "";

@@ -17,6 +17,10 @@ public class GameState
         CurrentPlayer = startingPlayer;
         IsPlayer1 = true;
 
+    }
+
+    public void SetupDefaultBoard()
+    {
         Board[7, 0] = Board[0, 0] = Piece.Rook;
         Board[6, 0] = Board[1, 0] = Piece.Knight;
         Board[5, 0] = Board[2, 0] = Piece.Bishop;
@@ -30,6 +34,7 @@ public class GameState
         Board[3, 7] = Piece.Queen | Piece.Player1;
         Board[4, 7] = Piece.King | Piece.Player1;
         Board[7, 6] = Board[6, 6] = Board[5, 6] = Board[4, 6] = Board[3, 6] = Board[2, 6] = Board[1, 6] = Board[0, 6] = Piece.Pawn | Piece.Player1;
+
     }
 
     internal void MovePiece(int fromX, int fromY, int toX, int toY)

@@ -23,13 +23,13 @@ internal class PawnMoveRule : Rule
         {
             if (m.DestinationY != m.OriginY + inc)
             {
-                reason = "Pawns only move 1 square";
+                reason = "Pawns move 1 square forward";
                 return false;
             }
 
             if (Math.Abs(m.DestinationX - m.OriginX) != 1)
             {
-                reason = "Pawns only move 1 square";
+                reason = "Pawns move 1 square forward";
                 return false;
             }
 

@@ -21,7 +21,7 @@ internal class KingMoveRule : Rule
             return true;
         }
 
-        reason = "Kings mmove only 1 square";
+        reason = "Kings move only 1 square";
         return false;
     }
 }
