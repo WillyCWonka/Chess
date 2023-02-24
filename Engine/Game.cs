@@ -122,6 +122,7 @@ public class Game
         new EnPassantRule(),
         new CheckRule(),
         new LongCastleRule()
+
     };
 
 

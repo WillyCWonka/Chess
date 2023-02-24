@@ -64,6 +64,7 @@ internal class LongCastleRule : Rule
             }
         }
 
+
         //TODO check on these squarew
 
         return true;
