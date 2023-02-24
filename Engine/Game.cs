@@ -117,7 +117,11 @@ public class Game
         new PawnMoveRule(),
         new QueenMoveRule(),
         new KnightMoveRule(),
-        new KingMoveRule()
+        new KingMoveRule(),
+        new CastleRule(),
+        new EnPassantRule(),
+        new CheckRule(),
+        new LongCastleRule()
     };
 
 
@@ -147,33 +151,33 @@ public class Game
             case MoveType.Castle:
                 if (IsPlayer1CurrentPlayer())
                 {
-                    //   move king from 4,0 to 6,0
-                    gs.MovePiece(4, 0, 6, 0);
-                    //   move rook from 7,0 to 5,0
-                    gs.MovePiece(7, 0, 5, 0);
+                    //   move king from 4,7 to 6,7
+                    gs.MovePiece(4, 7, 6, 7);
+                    //   move rook from 7,7 to 5,7
+                    gs.MovePiece(7, 7, 5, 7);
                 }
                 else
                 {
-                    //   move king to 3,7 to 1,7
-                    gs.MovePiece(3, 7, 1, 7);
+                    //   move king to 4,0 to 2,0
+                    gs.MovePiece(4, 0, 6, 0);
                     //   move rook to 0,7 to 2,7
-                    gs.MovePiece(0, 7, 2, 7);
+                    gs.MovePiece(7, 0, 5, 0);
                 }
                 break;
             case MoveType.LongCastle:
                 if (IsPlayer1CurrentPlayer())
                 {
                     //   move king from 4,0 to 2,0
-                    gs.MovePiece(4, 0, 2, 0);
-                    //   move rook from 0,0 to 3,0
-                    gs.MovePiece(0, 0, 3, 0);
+                    gs.MovePiece(4, 7, 2, 7);
+                    //   move rook from 0,7 to 3,7
+                    gs.MovePiece(0, 7, 3, 7);
                 }
                 else
                 {
-                    //   move king from 3,7 to 5,7
-                    gs.MovePiece(3, 7, 5, 7);
+                    //   move king from 4,0 to 5,7
+                    gs.MovePiece(4, 0, 2, 0);
                     //   move rook from 7,7 to 4,7
-                    gs.MovePiece(7, 7, 4, 7);
+                    gs.MovePiece(7, 0, 3, 0);
                 }
                 break;
             case MoveType.EnPassant:
