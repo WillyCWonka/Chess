@@ -30,7 +30,7 @@ internal class EnPassantRule : Rule
             return false;
         }
 
-        reason = "You can't enPassant right now";
+        reason = "Pawns only go forwards";
         return false;
     }
 }

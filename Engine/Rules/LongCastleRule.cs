@@ -2,6 +2,16 @@
 
 internal class LongCastleRule : Rule
 {
+    Rules.Rule[] rules =
+    {
+        new RookMoveRule(),
+        new BishopMoveRule(),
+        new PawnMoveRule(),
+        new QueenMoveRule(),
+        new KnightMoveRule(),
+        new KingMoveRule()
+    };
+
     internal override bool IsValid(GameState gs, Move m, out string reason)
     {
         reason = "";
@@ -36,6 +46,27 @@ internal class LongCastleRule : Rule
                 reason = "Piece in the way";
                 return false;
             }
+
+            for (int y = 0; y < 8; y++)
+            {
+                for (var x = 0; x < 8; x++)
+                {
+                    if ((gs.Board[x, y] & Piece.Player1) == 0 && gs.Board[x, y] != Piece.None)
+                    {
+                        var fakeM1 = new Move("", x, y, 4, 7, MoveType.Standard);
+                        var fakeM2 = new Move("", x, y, 3, 7, MoveType.Standard);
+                        var fakeM3 = new Move("", x, y, 2, 7, MoveType.Standard);
+
+                        if (rules.All(r => r.IsValid(gs, fakeM1, out string fakeReason)) || rules.All(r => r.IsValid(gs, fakeM2, out string fakeReason)) || rules.All(r => r.IsValid(gs, fakeM3, out string fakeReason)))
+                        {
+                            reason = "You can't castle through check";
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
         else
         {
@@ -64,8 +95,24 @@ internal class LongCastleRule : Rule
             }
         }
 
+        for (int y = 0; y < 8; y++)
+        {
+            for (var x = 0; x < 8; x++)
+            {
+                if ((gs.Board[x, y] & Piece.Player1) == 0 && gs.Board[x, y] != Piece.None)
+                {
+                    var fakeM1 = new Move("", x, y, 4, 0, MoveType.Standard);
+                    var fakeM2 = new Move("", x, y, 3, 0, MoveType.Standard);
+                    var fakeM3 = new Move("", x, y, 2, 0, MoveType.Standard);
 
-        //TODO check on these squarew
+                    if (rules.All(r => r.IsValid(gs, fakeM1, out string fakeReason)) || rules.All(r => r.IsValid(gs, fakeM2, out string fakeReason)) || rules.All(r => r.IsValid(gs, fakeM3, out string fakeReason)))
+                    {
+                        reason = "You can't castle through check";
+                        return false;
+                    }
+                }
+            }
+        }
 
         return true;
     }

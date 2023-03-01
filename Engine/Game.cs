@@ -128,7 +128,6 @@ public class Game
 
     private bool ValidateMove(Move move, out string reason)
     {
-        //TODO: make sure move doesn't break any rules
         foreach (var rule in rules)
         {
             if (!rule.IsValid(gs, move, out reason))
