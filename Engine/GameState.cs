@@ -19,6 +19,14 @@ public class GameState
 
     }
 
+    public GameState(GameState gs)
+    {
+        Board = (Piece[,])gs.Board.Clone();
+        MoveHistory = new List<Move>(gs.MoveHistory);
+        CurrentPlayer = (IPlayer)gs.CurrentPlayer;
+        IsPlayer1 = (bool)gs.IsPlayer1;
+    }
+
     public void SetupDefaultBoard()
     {
         Board[7, 0] = Board[0, 0] = Piece.Rook;
@@ -41,6 +49,63 @@ public class GameState
     {
         Board[toX, toY] = Board[fromX, fromY];
         Board[fromX, fromY] = Piece.None;
+    }
+
+    internal void MakeMove(Move move)
+    {
+        switch (move.Type)
+        {
+            case MoveType.Standard:
+                MovePiece(move.OriginX, move.OriginY, move.DestinationX, move.DestinationY);
+                break;
+            case MoveType.Castle:
+                if (IsPlayer1)
+                {
+                    //   move king from 4,7 to 6,7
+                    MovePiece(4, 7, 6, 7);
+                    //   move rook from 7,7 to 5,7
+                    MovePiece(7, 7, 5, 7);
+                }
+                else
+                {
+                    //   move king to 4,0 to 2,0
+                    MovePiece(4, 0, 6, 0);
+                    //   move rook to 0,7 to 2,7
+                    MovePiece(7, 0, 5, 0);
+                }
+                break;
+            case MoveType.LongCastle:
+                if (IsPlayer1)
+                {
+                    //   move king from 4,0 to 2,0
+                    MovePiece(4, 7, 2, 7);
+                    //   move rook from 0,7 to 3,7
+                    MovePiece(0, 7, 3, 7);
+                }
+                else
+                {
+                    //   move king from 4,0 to 5,7
+                    MovePiece(4, 0, 2, 0);
+                    //   move rook from 7,7 to 4,7
+                    MovePiece(7, 0, 3, 0);
+                }
+                break;
+            case MoveType.EnPassant:
+                MovePiece(move.OriginX, move.OriginY, move.DestinationX, move.DestinationY);
+                // the last piece moved must have been the pawn that's being captured
+                Board[MoveHistory.Last().DestinationX, MoveHistory.Last().DestinationY] = Piece.None;
+                break;
+            case MoveType.Concede:
+                if (IsPlayer1)
+                {
+                    Status = Status.Player2Win;
+                }
+                else
+                {
+                    Status = Status.Player1Win;
+                }
+                return;
+        }
     }
 }
 

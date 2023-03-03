@@ -143,58 +143,11 @@ public class Game
     private void ExecuteMove(Move move)
     {
         // update our game state with the new move
-        switch (move.Type)
+        gs.MakeMove(move);
+
+        if (gs.Status != Status.Playing)
         {
-            case MoveType.Standard:
-                gs.MovePiece(move.OriginX, move.OriginY, move.DestinationX, move.DestinationY);
-                break;
-            case MoveType.Castle:
-                if (IsPlayer1CurrentPlayer())
-                {
-                    //   move king from 4,7 to 6,7
-                    gs.MovePiece(4, 7, 6, 7);
-                    //   move rook from 7,7 to 5,7
-                    gs.MovePiece(7, 7, 5, 7);
-                }
-                else
-                {
-                    //   move king to 4,0 to 2,0
-                    gs.MovePiece(4, 0, 6, 0);
-                    //   move rook to 0,7 to 2,7
-                    gs.MovePiece(7, 0, 5, 0);
-                }
-                break;
-            case MoveType.LongCastle:
-                if (IsPlayer1CurrentPlayer())
-                {
-                    //   move king from 4,0 to 2,0
-                    gs.MovePiece(4, 7, 2, 7);
-                    //   move rook from 0,7 to 3,7
-                    gs.MovePiece(0, 7, 3, 7);
-                }
-                else
-                {
-                    //   move king from 4,0 to 5,7
-                    gs.MovePiece(4, 0, 2, 0);
-                    //   move rook from 7,7 to 4,7
-                    gs.MovePiece(7, 0, 3, 0);
-                }
-                break;
-            case MoveType.EnPassant:
-                gs.MovePiece(move.OriginX, move.OriginY, move.DestinationX, move.DestinationY);
-                // the last piece moved must have been the pawn that's being captured
-                gs.Board[gs.MoveHistory.Last().DestinationX, gs.MoveHistory.Last().DestinationY] = Piece.None;
-                break;
-            case MoveType.Concede:
-                if (IsPlayer1CurrentPlayer())
-                {
-                    gs.Status = Status.Player2Win;
-                }
-                else
-                {
-                    gs.Status = Status.Player1Win;
-                }
-                return;
+            return;
         }
 
         gs.IsInCheck = IsCheck();
