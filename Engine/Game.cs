@@ -151,9 +151,9 @@ public class Game
         }
 
         gs.IsInCheck = IsCheck();
-        if (gs.IsInCheck)
+        if (NoLegalMoves())
         {
-            if (IsCheckMate())
+            if (IsCheck())
             {
                 if (IsPlayer1CurrentPlayer())
                 {
@@ -165,7 +165,7 @@ public class Game
                 }
             }
         }
-        else if (IsStalemate())
+        else
         {
             gs.Status = Status.Stalemate;
         }
@@ -175,19 +175,11 @@ public class Game
 
     private bool IsCheck()
     {
-        //TODO: check non-current player for check
-        return false;
+        return Helper.IsPlayerCheck(gs, !gs.IsPlayer1);
     }
 
-    private bool IsCheckMate()
+    private bool NoLegalMoves()
     {
-        //TODO: check non-current player for checkmate
-        return false;
-    }
-
-    private bool IsStalemate()
-    {
-        //TODO: check non-current player for stalemate
-        return false;
+        return Helper.NoLegalMoves(gs, gs.IsPlayer1);
     }
 }
